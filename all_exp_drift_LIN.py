@@ -15,7 +15,7 @@ calculate_mse = False
 calculate_mean_drift_rate = False
 
 # Find directories for all experiments
-exp_folder = Path('drift_exp_v2')
+exp_folder = Path('drift_exp')
 experiments_pos = [x for x in exp_folder.iterdir() if x.is_dir()]
 # Initialise arrays
 experiments_summary = []  # list of dictionaries summarising experiment info
@@ -62,9 +62,10 @@ for exp_path in tqdm(experiments_pos, desc='Drift Exp'):
     param_seg1[4:6, :] = fit.fit_pixels_interpolate_LIN(t1 - t1[0], x1 - np.mean(x1[:3, :], axis=0))
     param_seg2[4:6, :] = fit.fit_pixels_interpolate_LIN(t2 - t2[0], x2 - np.mean(x2[:3, :], axis=0))
 
-    for i_pixel in range(param_seg1.shape[1]):
-        mse = np.mean((fit.line(t1 - t1[0], param_seg1[4, i_pixel], param_seg1[5, i_pixel]) - (x1[:,i_pixel] - np.mean(x1[:3, i_pixel], axis=0)))**2)
-        all_mse.append(mse)
+    if calculate_mse:
+        for i_pixel in range(param_seg1.shape[1]):
+            mse = np.mean((fit.line(t1 - t1[0], param_seg1[4, i_pixel], param_seg1[5, i_pixel]) - (x1[:,i_pixel] - np.mean(x1[:3, i_pixel], axis=0)))**2)
+            all_mse.append(mse)
 
     # ADAPT COEFFICIENTS
     a1 = param_seg1[4, :]

@@ -13,7 +13,7 @@ delta1_a_987, delta1_b_987, delta1_c_987 = [], [], []
 
 all_mse = []
 # Find directories for all experiments
-exp_folder = Path('drift_exp_v2')
+exp_folder = Path('drift_exp')
 experiments_pos = [x for x in exp_folder.iterdir() if x.is_dir()]
 
 for exp_path in tqdm(experiments_pos, desc='Drift Exp'):
